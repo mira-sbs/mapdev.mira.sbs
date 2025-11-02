@@ -1,12 +1,10 @@
-package com.oresomecraft.mapdev;
+package sbs.mira.mapdev;
 
-import org.bukkit.entity.Player;
+public
+class Util
+{
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Util {
-
+    /*
     private static MapDevPlugin plugin = MapDevPlugin.getInstance();
 
     public static void setPrivateWorld(String name, String owner) {
@@ -46,5 +44,5 @@ public class Util {
 
     public static boolean isPrivate(String world) {
         return plugin.getConfig().contains("worlds." + world);
-    }
+    }*/
 }

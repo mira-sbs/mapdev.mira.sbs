@@ -1,0 +1,39 @@
+error:
+  map:
+    list:
+      nothing: "&4(x_x): &cthere are no maps to list."
+      max_page_exceeded: "&6(o_o): &ethere are only &c{0} page(s) &eof maps available."
+    world:
+      local:
+        create:
+          without_load: "&6(o_o): &eplease also &c[-l] load maps &ewhen &c[-c] creating &ethem."
+          already_exists: "&4(x_x): &cthe map you want to [-c] create &calready exists&e. please [-l] load it instead."
+        already_loaded: "&6(o_o): &ethe map &b'{0}' &ehas already been loaded in!"
+        discard_unsafe: "&4(o_o): &cthe map &b'{0}' &cis currently loaded. &a[-u] unload &cit too if you'd like to &4[-d] discard &cit."
+        not_created: "&4(x_x): &cmap &b'{0}' &cdoes not exist. please also &a[-c] create &cit."
+        not_loaded: "&4(o_o): &cmap &b'{0}' &chas not been &a[-l] loaded&c. {1}"
+        teleport_illegal: "&4(x_x): &cyou cannot [-t] teleport into a world being [-u] unloaded or [-d] discarded."
+        teleport_nonplayer: "&4(o_O): &cyou do not have a body to [-t] teleport anywhere."
+      repo:
+        ambiguity: "&6(o_o): &eyou are interacting with the map repository.\n&aplease also [-l] load or [-s] save this map."
+        with_create: "&4(x_x): &cmaps from the [-r] repository cannot be [-n] new."
+        not_found: "&4(o_O): &ccould not find map &a'{0}' &cin the [-r] repository."
+info:
+  player:
+    teleported:
+      voluntary: "&5(⊃^-^)⊃: &dzoom!"
+  map:
+    world:
+      local:
+        loaded: "&6(^-^)7: &esuccessfully &aloaded &emap &b'{0}'&e!"
+        unloaded: "&6(^-^)7: &esuccessfully &cunloaded &emap &b'{0}'&e!"
+        discarded: "&6(^-^)7: &esuccessfully &4discarded &emap &b'{0}'&e!"
+        saved: "&6(^-^)7: &esuccessfully &2saved &emap &b'{0}'&e!"
+      repo:
+        copied_from: "&6(^-^)7: &esuccessfully &acopied &6repo map &b'{0}' &eto &2local world &b'{1}'&e!"
+        copied_to: "&6(^-^)7: &esuccessfully &acopied &2local world &b'{0}'&e to &6repo map &b'{1}'&e!"
+    list:
+      header: "&6(⊃^-^)⊃: &emaps list &6(page {0} of {1}) &c({2} total) &4{3}"
+      item: "&3- &b[{0}] &a{1}"
+      continues: "&6(⊃^-^)⊃: &eto see next page, instruct with &6/maps -p {0}&e!"
+      ends: "&6⊂(・_・⊂): &eyou have reached the &cend &eof the list."

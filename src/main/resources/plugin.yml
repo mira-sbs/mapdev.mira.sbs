@@ -1,0 +1,9 @@
+name: mira-mapdev
+description: hocus pocus your map development experience is now our focus.
+main: sbs.mira.mapdev.MiraMapDevPlugin
+version: '1.0.1'
+api-version: 1.20.10
+load: POSTWORLD
+author: kawi
+website: mira.sbs
+depend: [WorldEdit]
