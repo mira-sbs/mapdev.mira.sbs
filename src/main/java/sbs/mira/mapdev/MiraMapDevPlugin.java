@@ -6,16 +6,12 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import sbs.mira.core.MiraPlugin;
 import sbs.mira.mapdev.command.MapCommand;
 import sbs.mira.mapdev.command.MapsCommand;
-
-import java.util.logging.Logger;
+import sbs.mira.mapdev.command.TerraformCommand;
 
 public
 class MiraMapDevPlugin
   extends MiraPlugin<MiraMapDevPulse>
 {
-  
-  public final Logger logger = Logger.getLogger( "Minecraft" );
-  
   public
   MiraMapDevPlugin( )
   {
@@ -28,18 +24,18 @@ class MiraMapDevPlugin
   {
     super.onLoad( );
     
-    pulse( ).breathe( this, new MiraMapDevMaster( pulse( ) ) );
+    this.pulse( ).breathe( this, new MiraMapDevModel( pulse( ) ) );
     
     BasicBukkitCommandGraph cmdGraph = new BasicBukkitCommandGraph( );
     cmdGraph.getRootDispatcherNode( ).registerCommands( new MapCommand( pulse( ) ) );
     cmdGraph.getRootDispatcherNode( ).registerCommands( new MapsCommand( pulse( ) ) );
+    cmdGraph.getRootDispatcherNode( ).registerCommands( new TerraformCommand( pulse( ) ) );
     
     BukkitIntake intake = new BukkitIntake( this, cmdGraph );
-    
     intake.register( );
-    PluginDescriptionFile pdfFile = getDescription( );
     
-    this.logger.info( pdfFile.getName( ) + " version " + pdfFile.getVersion( ) + " is now loaded" );
+    PluginDescriptionFile description = this.getDescription( );
+    this.log( description.getName( ) + " v" + description.getVersion( ) + " is now loaded." );
   }
   
   @Override
@@ -48,14 +44,17 @@ class MiraMapDevPlugin
   {
     super.onEnable( );
     
-    PluginDescriptionFile pdfFile = getDescription( );
-    this.logger.info( pdfFile.getName( ) + " version " + pdfFile.getVersion( ) + " is now enabled" );
+    PluginDescriptionFile description = this.getDescription( );
+    this.log( description.getName( ) + " v" + description.getVersion( ) + " is now enabled." );
   }
   
+  @Override
   public
   void onDisable( )
   {
-    PluginDescriptionFile pdfFile = getDescription( );
-    this.logger.info( pdfFile.getName( ) + " is now disabled" );
+    super.onDisable( );
+    
+    PluginDescriptionFile description = this.getDescription( );
+    this.log( description.getName( ) + " is now disabled." );
   }
 }

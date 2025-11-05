@@ -12,6 +12,6 @@ import sbs.mira.core.MiraPulse;
  */
 public final
 class MiraMapDevPulse
-  extends MiraPulse<MiraMapDevPlugin, MiraMapDevMaster>
+  extends MiraPulse<MiraMapDevPlugin, MiraMapDevModel>
 {
 }

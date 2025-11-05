@@ -3,17 +3,17 @@ package sbs.mira.mapdev;
 import org.bukkit.craftbukkit.v1_21_R6.entity.CraftPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sbs.mira.core.MiraPluginMaster;
-import sbs.mira.core.module.MiraConfigurationModule;
+import sbs.mira.core.model.MiraConfigurationModel;
+import sbs.mira.core.model.MiraPluginModel;
 
 public
-class MiraMapDevMaster
-  extends MiraPluginMaster<MiraMapDevPulse, MiraMapDevPlayer>
+class MiraMapDevModel
+  extends MiraPluginModel<MiraMapDevPulse, MiraMapDevPlayer>
 {
-  private @Nullable MiraConfigurationModule<MiraMapDevPulse> mapdev_messages;
+  private @Nullable MiraConfigurationModel<MiraMapDevPulse> messages;
   
   public
-  MiraMapDevMaster( @NotNull MiraMapDevPulse pulse )
+  MiraMapDevModel( @NotNull MiraMapDevPulse pulse )
   {
     super( pulse );
   }
@@ -23,7 +23,7 @@ class MiraMapDevMaster
   void breathe( )
   {
     super.breathe( );
-    this.mapdev_messages = new MiraConfigurationModule<>( this.pulse( ), "mapdev_messages.yml" );
+    this.messages = new MiraConfigurationModel<>( this.pulse( ), "mapdev_messages.yml" );
   }
   
   @Override
@@ -40,11 +40,10 @@ class MiraMapDevMaster
   }
   
   @Override
-  @NotNull
-  public
+  public @NotNull
   String find_message( @NotNull String key )
   {
-    String result = mapdev_messages.get( key );
+    String result = messages.get( key );
     
     if ( result == null )
     {

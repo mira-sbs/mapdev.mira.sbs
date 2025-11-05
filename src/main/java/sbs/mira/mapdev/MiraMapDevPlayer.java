@@ -2,11 +2,11 @@ package sbs.mira.mapdev;
 
 import org.bukkit.craftbukkit.v1_21_R6.entity.CraftPlayer;
 import org.jetbrains.annotations.NotNull;
-import sbs.mira.core.MiraPlayer;
+import sbs.mira.core.model.MiraPlayerModel;
 
 public
 class MiraMapDevPlayer
-  extends MiraPlayer<MiraMapDevPulse>
+  extends MiraPlayerModel<MiraMapDevPulse>
 {
   public
   MiraMapDevPlayer(

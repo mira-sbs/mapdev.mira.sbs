@@ -20,6 +20,7 @@ error:
         not_found: "&4(o_O): &ccould not find map &a'{0}' &cin the [-r] repository."
 info:
   player:
+    terraform_tools: "&5(⊃^-^)⊃: &dinventory replaced with &6{0}&dterraforming tools!"
     teleported:
       voluntary: "&5(⊃^-^)⊃: &dzoom!"
   map:
