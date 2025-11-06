@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sbs.mira.core.model.MiraCommandModel;
+import sbs.mira.core.utility.MiraWorldUtility;
 import sbs.mira.mapdev.MiraMapDevPulse;
 
 import java.io.File;
@@ -56,7 +57,7 @@ class MapCommand
   {
     @NotNull File world_directory = new File(
       pulse( ).plugin( ).getServer( ).getWorldContainer( ),
-                                              world_label
+      world_label
     );
     @Nullable World world = pulse( ).plugin( ).getServer( ).getWorld( world_label );
     boolean world_loaded = world != null;
@@ -80,7 +81,7 @@ class MapCommand
       if ( !conflicting_flags.isEmpty( ) )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message( "error.flag_conflict", "ud", conflicting_flags ) );
+          .message( "error.flag_conflict", "ud", conflicting_flags ) );
         return;
       }
     }
@@ -89,25 +90,25 @@ class MapCommand
     if ( wants_discard && world_loaded && !wants_unload )
     {
       sender.sendMessage( pulse( ).model( )
-                                  .message( "error.map.world.local.discard_unsafe", world_label ) );
+        .message( "error.map.world.local.discard_unsafe", world_label ) );
       return;
     }
     
     if ( wants_save && !world_loaded )
     {
       sender.sendMessage( pulse( ).model( )
-                                  .message(
-                                    "error.map.world.local.not_loaded",
-                                    world_label,
-                                    "you cannot [-s] save it."
-                                          ) );
+        .message(
+          "error.map.world.local.not_loaded",
+          world_label,
+          "you cannot [-s] save it."
+                ) );
       return;
     }
     
     if ( wants_load && world_loaded )
     {
       sender.sendMessage( pulse( ).model( )
-                                  .message( "error.map.world.local.already_loaded", world_label ) );
+        .message( "error.map.world.local.already_loaded", world_label ) );
       return;
     }
     
@@ -117,7 +118,7 @@ class MapCommand
       if ( wants_create )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message( "error.map.world.repo.with_create", world_label ) );
+          .message( "error.map.world.repo.with_create", world_label ) );
         return;
       }
       
@@ -132,14 +133,14 @@ class MapCommand
     if ( wants_create && !wants_load )
     {
       sender.sendMessage( pulse( ).model( )
-                                  .message( "error.map.world.local.create.without_load" ) );
+        .message( "error.map.world.local.create.without_load" ) );
       return;
     }
     
     if ( !wants_create && wants_load && !world_directory.exists( ) && !with_repository )
     {
       sender.sendMessage( pulse( ).model( )
-                                  .message( "error.map.world.local.not_created", world_label ) );
+        .message( "error.map.world.local.not_created", world_label ) );
       return;
     }
     
@@ -150,14 +151,14 @@ class MapCommand
       if ( wants_unload || wants_discard )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message( "error.map.world.local.teleport_illegal" ) );
+          .message( "error.map.world.local.teleport_illegal" ) );
         return;
       }
       
       if ( !( sender instanceof LivingEntity ) )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message( "error.map.world.local.teleport_nonplayer" ) );
+          .message( "error.map.world.local.teleport_nonplayer" ) );
         return;
       }
     }
@@ -169,22 +170,25 @@ class MapCommand
       {
         try
         {
-          if ( !pulse( ).model( ).world( ).remembers( repository_world_label, world_label ) )
+          if ( !MiraWorldUtility.remembers(
+            this.pulse( ).model( ).maps_repository( ).getAbsolutePath( ),
+            repository_world_label,
+            world_label ) )
           {
             sender.sendMessage( pulse( ).model( )
-                                        .message(
-                                          "error.map.world.repo.not_found",
-                                          repository_world_label
-                                                ) );
+              .message(
+                "error.map.world.repo.not_found",
+                repository_world_label
+                      ) );
             return;
           }
           
           sender.sendMessage( pulse( ).model( )
-                                      .message(
-                                        "info.map.world.repo.copied_from",
-                                        repository_world_label,
-                                        world_label
-                                              ) );
+            .message(
+              "info.map.world.repo.copied_from",
+              repository_world_label,
+              world_label
+                    ) );
           
           // `return` not called here - it must also be loaded.
           assert wants_load;
@@ -200,14 +204,18 @@ class MapCommand
       {
         try
         {
-          pulse( ).model( ).world( ).stores( world, repository_world_label, true );
+          MiraWorldUtility.stores(
+            world,
+            this.pulse( ).model( ).maps_repository( ).getAbsolutePath( ),
+            repository_world_label,
+            true );
           
           sender.sendMessage( pulse( ).model( )
-                                      .message(
-                                        "info.map.world.repo.copied_to",
-                                        world_label,
-                                        repository_world_label
-                                              ) );
+            .message(
+              "info.map.world.repo.copied_to",
+              world_label,
+              repository_world_label
+                    ) );
           
           do_teleport( sender, wants_teleport, world, world_label );
           
@@ -228,7 +236,7 @@ class MapCommand
         world.save( );
         
         sender.sendMessage( pulse( ).model( )
-                                    .message( "info.map.world.local.saved", world_label ) );
+          .message( "info.map.world.local.saved", world_label ) );
         
         do_teleport( sender, wants_teleport, world, world_label );
         
@@ -239,10 +247,10 @@ class MapCommand
     if ( wants_load )
     
     {
-      world = pulse( ).model( ).world( ).loads( world_label, true );
+      world = MiraWorldUtility.loads( world_label, true );
       
       sender.sendMessage( pulse( ).model( )
-                                  .message( "info.map.world.local.loaded", world_label ) );
+        .message( "info.map.world.local.loaded", world_label ) );
       
       do_teleport( sender, wants_teleport, world, world_label );
       
@@ -254,11 +262,11 @@ class MapCommand
       if ( !world_loaded )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message(
-                                      "error.map.world.local.not_loaded",
-                                      world_label,
-                                      "you cannot [-t] teleport into it."
-                                            ) );
+          .message(
+            "error.map.world.local.not_loaded",
+            world_label,
+            "you cannot [-t] teleport into it."
+                  ) );
         return;
       }
       
@@ -270,19 +278,19 @@ class MapCommand
     {
       try
       {
-        pulse( ).model( ).world( ).discards( world_label );
+        MiraWorldUtility.discards( world_label );
       }
       catch ( IOException exception )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message( "error.command.generic", exception.getMessage( ) ) );
+          .message( "error.command.generic", exception.getMessage( ) ) );
         return;
       }
       
       sender.sendMessage( pulse( ).model( )
-                                  .message( "info.map.world.local.unloaded", world_label ) );
+        .message( "info.map.world.local.unloaded", world_label ) );
       sender.sendMessage( pulse( ).model( )
-                                  .message( "info.map.world.local.discarded", world_label ) );
+        .message( "info.map.world.local.discarded", world_label ) );
       
       return;
     }
@@ -292,18 +300,18 @@ class MapCommand
       if ( !world_loaded )
       {
         sender.sendMessage( pulse( ).model( )
-                                    .message(
-                                      "error.map.world.local.not_loaded",
-                                      world_label,
-                                      "you cannot [-u] unload it."
-                                            ) );
+          .message(
+            "error.map.world.local.not_loaded",
+            world_label,
+            "you cannot [-u] unload it."
+                  ) );
         return;
       }
       
-      pulse( ).model( ).world( ).unloads( world, true );
+      MiraWorldUtility.unloads( world, true );
       
       sender.sendMessage( pulse( ).model( )
-                                  .message( "info.map.world.local.unloaded", world_label ) );
+        .message( "info.map.world.local.unloaded", world_label ) );
       
       return;
     }
@@ -351,7 +359,7 @@ class MapCommand
                                        );
     
     sender.sendMessage( pulse( ).model( )
-                                .message( "info.player.teleported.voluntary", world_label ) );
+      .message( "info.player.teleported.voluntary", world_label ) );
     
   }
 }

@@ -21,7 +21,7 @@ class MiraMapDevTeleportGuard
   @Override
   @EventHandler
   public
-  void occurs( PlayerTeleportEvent event )
+  void handle_event( PlayerTeleportEvent event )
   {
     World fromWorld = event.getFrom( ).getWorld( );
     World toWorld = event.getTo( ).getWorld( );

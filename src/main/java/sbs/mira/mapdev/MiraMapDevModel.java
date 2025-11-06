@@ -4,11 +4,11 @@ import org.bukkit.craftbukkit.v1_21_R6.entity.CraftPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sbs.mira.core.model.MiraConfigurationModel;
-import sbs.mira.core.model.MiraPluginModel;
+import sbs.mira.core.model.MiraPluginDataModel;
 
 public
 class MiraMapDevModel
-  extends MiraPluginModel<MiraMapDevPulse, MiraMapDevPlayer>
+  extends MiraPluginDataModel<MiraMapDevPulse, MiraMapDevPlayer>
 {
   private @Nullable MiraConfigurationModel<MiraMapDevPulse> messages;
   
@@ -20,9 +20,9 @@ class MiraMapDevModel
   
   @Override
   public
-  void breathe( )
+  void initialise( )
   {
-    super.breathe( );
+    super.initialise( );
     this.messages = new MiraConfigurationModel<>( this.pulse( ), "mapdev_messages.yml" );
   }
   

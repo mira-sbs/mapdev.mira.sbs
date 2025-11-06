@@ -5,6 +5,7 @@ import app.ashcon.intake.parametric.annotation.Switch;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import sbs.mira.core.model.MiraCommandModel;
+import sbs.mira.core.utility.MiraWorldUtility;
 import sbs.mira.mapdev.MiraMapDevPulse;
 
 import java.io.File;
@@ -39,8 +40,7 @@ class MapsCommand
     @NotNull CommandSender sender,
     @Switch ('r') boolean with_repository,
     @Switch ('p') Integer page_number,
-    @Switch ('n') Integer page_size
-  )
+    @Switch ('n') Integer page_size )
   {
     boolean page_number_provided = page_number != null;
     int actual_page_number = page_number_provided ? page_number : 1;
@@ -50,13 +50,17 @@ class MapsCommand
     
     if ( actual_page_number <= 0 )
     {
-      sender.sendMessage( pulse( ).model( ).message( "error.number.greater_than_zero", "[-p] page number" ) );
+      sender.sendMessage( pulse( ).model( ).message(
+        "error.number.greater_than_zero",
+        "[-p] page number" ) );
       return;
     }
     
     if ( actual_page_size <= 0 )
     {
-      sender.sendMessage( pulse( ).model( ).message( "error.number.greater_than_zero", "[-n] page size" ) );
+      sender.sendMessage( pulse( ).model( ).message(
+        "error.number.greater_than_zero",
+        "[-n] page size" ) );
       return;
     }
     
@@ -64,15 +68,12 @@ class MapsCommand
     int lower_map_index = upper_map_count - actual_page_size;
     
     File world_container = with_repository ?
-      pulse( ).model( ).world( ).repo( ) :
-      pulse( ).plugin( ).getServer( ).getWorldContainer( );
+                           pulse( ).model( ).maps_repository( ) :
+                           pulse( ).plugin( ).getServer( ).getWorldContainer( );
     
-    List<String> worlds = Arrays
-      .stream( Objects.requireNonNull( world_container.listFiles( ) ) )
-      .filter( File::isDirectory )
-      .filter( ( file )->pulse( ).model( ).files( ).is_world_directory( file ) )
-      .map( File::getName )
-      .toList( );
+    List<String> worlds =
+      Arrays.stream( Objects.requireNonNull( world_container.listFiles( ) ) ).filter( File::isDirectory ).filter(
+        MiraWorldUtility::is_world_directory ).map( File::getName ).toList( );
     
     if ( worlds.isEmpty( ) )
     {
@@ -91,24 +92,18 @@ class MapsCommand
     
     if ( actual_page_number > max_page_number )
     {
-      sender.sendMessage(
-        pulse( ).model( ).message(
-          "error.map.list.max_page_exceeded",
-          String.valueOf( max_page_number )
-                                 )
-      );
+      sender.sendMessage( pulse( ).model( ).message(
+        "error.map.list.max_page_exceeded",
+        String.valueOf( max_page_number ) ) );
       return;
     }
     
-    sender.sendMessage(
-      pulse( ).model( ).message(
-        "info.map.list.header",
-        String.valueOf( actual_page_number ),
-        String.valueOf( max_page_number ),
-        String.valueOf( worlds.size( ) ),
-        with_repository ? "[repo]" : ""
-                               )
-    );
+    sender.sendMessage( pulse( ).model( ).message(
+      "info.map.list.header",
+      String.valueOf( actual_page_number ),
+      String.valueOf( max_page_number ),
+      String.valueOf( worlds.size( ) ),
+      with_repository ? "[repo]" : "" ) );
     
     boolean reached_end = false;
     
@@ -121,8 +116,7 @@ class MapsCommand
         sender.sendMessage( pulse( ).model( ).message(
           "info.map.list.item",
           String.valueOf( actual_map_index + 1 ),
-          worlds.get( actual_map_index )
-                                                     ) );
+          worlds.get( actual_map_index ) ) );
       }
       catch ( IndexOutOfBoundsException exception )
       {
@@ -136,8 +130,7 @@ class MapsCommand
     {
       sender.sendMessage( pulse( ).model( ).message(
         "info.map.list.continues",
-        String.valueOf( actual_page_number + 1 )
-                                                   ) );
+        String.valueOf( actual_page_number + 1 ) ) );
     }
   }
 }
