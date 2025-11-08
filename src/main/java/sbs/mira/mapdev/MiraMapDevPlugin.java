@@ -35,7 +35,7 @@ class MiraMapDevPlugin
     intake.register( );
     
     PluginDescriptionFile description = this.getDescription( );
-    this.log( description.getName( ) + " v" + description.getVersion( ) + " is now loaded." );
+    //fixme: this.log( description.getName( ) + " v" + description.getVersion( ) + " is now loaded." );
   }
   
   @Override
@@ -45,7 +45,7 @@ class MiraMapDevPlugin
     super.onEnable( );
     
     PluginDescriptionFile description = this.getDescription( );
-    this.log( description.getName( ) + " v" + description.getVersion( ) + " is now enabled." );
+    //fixme: this.log( description.getName( ) + " v" + description.getVersion( ) + " is now enabled." );
   }
   
   @Override
@@ -55,6 +55,6 @@ class MiraMapDevPlugin
     super.onDisable( );
     
     PluginDescriptionFile description = this.getDescription( );
-    this.log( description.getName( ) + " is now disabled." );
+    //fixme: this.log( description.getName( ) + " is now disabled." );
   }
 }

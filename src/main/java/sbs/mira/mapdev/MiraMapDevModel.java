@@ -34,12 +34,6 @@ class MiraMapDevModel
   }
   
   @Override
-  public
-  void spectating( @NotNull MiraMapDevPlayer wp )
-  {
-  }
-  
-  @Override
   public @NotNull
   String find_message( @NotNull String key )
   {
