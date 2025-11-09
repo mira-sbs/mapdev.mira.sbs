@@ -18,7 +18,7 @@
   <version>1.0.1</version>
   <packaging>jar</packaging>
 
-  <name>mapdev.mira.sbs</name>
+  <name>mira-mapdev</name>
   <description>hocus pocus your map development experience is now our focus.</description>
   <url>https://mapdev.mira.sbs/</url>
 
