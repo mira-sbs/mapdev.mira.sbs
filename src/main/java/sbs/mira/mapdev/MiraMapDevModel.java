@@ -1,6 +1,6 @@
 package sbs.mira.mapdev;
 
-import org.bukkit.craftbukkit.v1_21_R6.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sbs.mira.core.model.MiraConfigurationModel;
@@ -27,14 +27,8 @@ class MiraMapDevModel
   }
   
   @Override
-  public @NotNull
-  MiraMapDevPlayer declares( @NotNull CraftPlayer target )
-  {
-    return null;
-  }
-  
-  @Override
-  public @NotNull
+  @NotNull
+  public
   String find_message( @NotNull String key )
   {
     String result = messages.get( key );

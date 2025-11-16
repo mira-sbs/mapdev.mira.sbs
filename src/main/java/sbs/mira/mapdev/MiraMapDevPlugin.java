@@ -3,6 +3,7 @@ package sbs.mira.mapdev;
 import app.ashcon.intake.bukkit.BukkitIntake;
 import app.ashcon.intake.bukkit.graph.BasicBukkitCommandGraph;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.jetbrains.annotations.NotNull;
 import sbs.mira.core.MiraPlugin;
 import sbs.mira.mapdev.command.MapCommand;
 import sbs.mira.mapdev.command.MapsCommand;
@@ -12,49 +13,36 @@ public
 class MiraMapDevPlugin
   extends MiraPlugin<MiraMapDevPulse>
 {
+  @NotNull
+  private final MiraMapDevModel model;
+  
   public
   MiraMapDevPlugin( )
   {
     super( new MiraMapDevPulse( ) );
+    
+    this.model = new MiraMapDevModel( this.pulse( ) );
   }
   
   @Override
   public
   void onLoad( )
   {
-    super.onLoad( );
-    
-    this.pulse( ).breathe( this, new MiraMapDevModel( pulse( ) ) );
-    
     BasicBukkitCommandGraph cmdGraph = new BasicBukkitCommandGraph( );
-    cmdGraph.getRootDispatcherNode( ).registerCommands( new MapCommand( pulse( ) ) );
-    cmdGraph.getRootDispatcherNode( ).registerCommands( new MapsCommand( pulse( ) ) );
-    cmdGraph.getRootDispatcherNode( ).registerCommands( new TerraformCommand( pulse( ) ) );
+    cmdGraph.getRootDispatcherNode( ).registerCommands( new MapCommand( this.pulse( ) ) );
+    cmdGraph.getRootDispatcherNode( ).registerCommands( new MapsCommand( this.pulse( ) ) );
+    cmdGraph.getRootDispatcherNode( ).registerCommands( new TerraformCommand( this.pulse( ) ) );
     
     BukkitIntake intake = new BukkitIntake( this, cmdGraph );
     intake.register( );
-    
-    PluginDescriptionFile description = this.getDescription( );
-    //fixme: this.log( description.getName( ) + " v" + description.getVersion( ) + " is now loaded." );
   }
   
   @Override
   public
   void onEnable( )
   {
-    super.onEnable( );
+    this.pulse( ).revive( this, this.model );
     
-    PluginDescriptionFile description = this.getDescription( );
-    //fixme: this.log( description.getName( ) + " v" + description.getVersion( ) + " is now enabled." );
-  }
-  
-  @Override
-  public
-  void onDisable( )
-  {
-    super.onDisable( );
-    
-    PluginDescriptionFile description = this.getDescription( );
-    //fixme: this.log( description.getName( ) + " is now disabled." );
+    this.pulse( ).log( "[mapdev] %s enables..".formatted( this.description( ) ) );
   }
 }

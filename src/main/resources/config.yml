@@ -1,0 +1,7 @@
+################################################################################
+# [mira—v1.0.1] may i reflect again?
+# global (default!) configuration file.
+################################################################################
+mira:
+  file_paths:
+    world_repository: "/home/founders/repo/maps"
